@@ -1,0 +1,20 @@
+{
+  "name": "hyper-open-tab-in-system-context-menu",
+  "version": "0.0.1",
+  "description": "open new tab instead of create a new app instance when click the system-context-menu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ivanwonder/hyper-open-tab-in-system-context-menu.git"
+  },
+  "keywords": [
+    "tab",
+    "hyper",
+    "instance"
+  ],
+  "author": "ivan",
+  "license": "ISC"
+}
