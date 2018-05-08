@@ -1,5 +1,5 @@
 {
-  "name": "hyper-open-tab-in-system-context-menu",
+  "name": "hyper-single-instance",
   "version": "0.0.1",
   "description": "open new tab instead of create a new app instance when click the system-context-menu",
   "main": "index.js",
