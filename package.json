@@ -8,12 +8,19 @@
   },
   "repository": {
     "type" : "git",
-    "url" : "https://github.com/ivanwonder/hyper-open-tab-in-system-context-menu.git"
+    "url" : "https://github.com/ivanwonder/hyper-single-instance.git"
   },
   "keywords": [
-    "tab",
-    "hyper",
-    "instance"
+    "instance",
+    "hyper-plugin",
+    "hyper.app",
+    "hyperterm",
+    "hyper-plugin",
+    "plugin",
+    "terminal",
+    "console",
+    "single",
+    "window"
   ],
   "author": "ivan",
   "license": "ISC"
