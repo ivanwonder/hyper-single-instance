@@ -1,6 +1,6 @@
 {
   "name": "hyper-single-instance",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "open new tab instead of create a new app instance when click the system-context-menu",
   "main": "index.js",
   "scripts": {
