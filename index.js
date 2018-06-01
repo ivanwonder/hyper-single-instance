@@ -24,6 +24,7 @@ exports.middleware = ({ dispatch }) => next => (action) => {
 
 exports.onApp = (app) => {
   // when open hyper in the system-context-menu, we will prevent creating the new app instance, and open a new tab in last focused window.
+  app.releaseSingleInstance();
   const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
     const lastFocusedWindow = app.getLastFocusedWindow();
     // tell the render process to set the the tab's cwd before create a new one.
@@ -31,14 +32,16 @@ exports.onApp = (app) => {
   });
   if (isSecondInstance) {
     app.quit();
-  } else {
-    const lastFocusedWindow = app.getLastFocusedWindow();
-    // tell the render process to open a new tab.
-    lastFocusedWindow.rpc.on(communicationSuccessKey, function () {
-      lastFocusedWindow.rpc.emit('termgroup add req');
-      if (!lastFocusedWindow.isFocused()) {
-        lastFocusedWindow.focus();
-      }
-    })
   }
 };
+
+exports.onWindow = (_window) => {
+  // tell the render process to open a new tab.
+  _window.rpc.removeAllListeners(communicationSuccessKey);
+  _window.rpc.on(communicationSuccessKey, function () {
+    _window.rpc.emit('termgroup add req');
+    if (!_window.isFocused()) {
+      _window.focus();
+    }
+  })
+}
