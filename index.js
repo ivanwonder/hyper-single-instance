@@ -1,5 +1,6 @@
 const communicationKey = 'set session cwd';
 const communicationSuccessKey = 'set session cwd successfully';
+const {isAbsolute} = require('path');
 
 exports.middleware = ({ dispatch }) => next => (action) => {
   switch (action.type) {
@@ -27,8 +28,9 @@ exports.onApp = (app) => {
   app.releaseSingleInstance();
   const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
     const lastFocusedWindow = app.getLastFocusedWindow();
+    const cwd = isAbsolute(commandLine[1]) ? commandLine[1] : workingDirectory;
     // tell the render process to set the the tab's cwd before create a new one.
-    lastFocusedWindow.rpc.emit(communicationKey, workingDirectory);
+    lastFocusedWindow.rpc.emit(communicationKey, cwd);
   });
   if (isSecondInstance) {
     app.quit();
