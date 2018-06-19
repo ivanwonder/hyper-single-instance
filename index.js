@@ -28,7 +28,7 @@ exports.onApp = (app) => {
   app.releaseSingleInstance();
   const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
     const lastFocusedWindow = app.getLastFocusedWindow();
-    const cwd = isAbsolute(commandLine[1]) ? commandLine[1] : workingDirectory;
+    const cwd = (commandLine[1] && isAbsolute(commandLine[1])) ? commandLine[1] : workingDirectory;
     // tell the render process to set the the tab's cwd before create a new one.
     lastFocusedWindow.rpc.emit(communicationKey, cwd);
   });
