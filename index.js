@@ -1,6 +1,6 @@
 const communicationKey = 'set session cwd';
 const communicationSuccessKey = 'set session cwd successfully';
-const {isAbsolute} = require('path');
+const { isAbsolute } = require('path');
 
 exports.middleware = ({ dispatch }) => next => (action) => {
   switch (action.type) {
@@ -24,16 +24,17 @@ exports.middleware = ({ dispatch }) => next => (action) => {
 };
 
 exports.onApp = (app) => {
-  // when open hyper in the system-context-menu, we will prevent creating the new app instance, and open a new tab in last focused window.
-  app.releaseSingleInstance();
-  const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
-    const lastFocusedWindow = app.getLastFocusedWindow();
-    const cwd = (commandLine[1] && isAbsolute(commandLine[1])) ? commandLine[1] : workingDirectory;
-    // tell the render process to set the the tab's cwd before create a new one.
-    lastFocusedWindow.rpc.emit(communicationKey, cwd);
-  });
-  if (isSecondInstance) {
+  const gotTheLock = app.requestSingleInstanceLock();
+
+  if (!gotTheLock) {
     app.quit();
+  } else {
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+      const lastFocusedWindow = app.getLastFocusedWindow();
+      const cwd = (commandLine[1] && isAbsolute(commandLine[1])) ? commandLine[1] : workingDirectory;
+      // tell the render process to set the the tab's cwd before create a new one.
+      lastFocusedWindow.rpc.emit(communicationKey, cwd);
+    })
   }
 };
 
