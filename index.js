@@ -44,7 +44,10 @@ exports.onWindow = (_window) => {
   _window.rpc.on(communicationSuccessKey, function () {
     _window.rpc.emit('termgroup add req');
     if (!_window.isFocused()) {
-      _window.focus();
+      // compat with new hyper. this focus will conflict with terminal focus
+      setTimeout(() => {
+        _window.focus();
+      });
     }
   })
 }
